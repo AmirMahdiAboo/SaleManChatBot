@@ -1,16 +1,42 @@
 {
-  "questions": [
+  "ChitChat": [
     {
-      "question": "hello",
+      "question": "سلام",
       "answer": "hey there"
     },
     {
-      "question": "seyed jan salam",
+      "question": "درود",
       "answer": "dorod bar to"
     },
     {
-      "question": "seyed",
+      "question": "های",
       "answer": "jan"
+    },
+    {
+      "question": "مرام",
+      "answer": "hello"
+    },
+    {
+      "question": "معرفت",
+      "answer": "hello"
+    }
+  ],
+  
+  "Inventory": [
+    {
+      "name": "سیب",
+      "price": 1.99,
+      "quantity": 10
+    },
+    {
+      "name": "موز",
+      "price": 0.99,
+      "quantity": 10
+    },
+    {
+      "name": "پورتقال",
+      "price": 1.49,
+      "quantity": 10
     }
   ]
 }
