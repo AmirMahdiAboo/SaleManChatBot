@@ -3,7 +3,7 @@ from difflib import get_close_matches
 from parsivar import Normalizer
 from parsivar import Tokenizer
 
-def load_knowledge_base(file_path: str) -> dict:
+def load_data(file_path: str) -> dict:
     with open(file_path, 'r', encoding='utf-8') as file:
         data: dict = json.load(file)
         return data
@@ -16,50 +16,60 @@ def find_best_match(user_question: str, questions: list) -> str | None:
     matches: list = get_close_matches(user_question, questions, n=1, cutoff=0.6)
     return matches[0] if matches else None
 
-def get_answer_for_question(question: str, knowledge_base: dict) -> str | None:
-    for q in knowledge_base["questions"]:
-        if q["question"] == question:
-            return q["answer"]
+def get_answer_for_question(founded_word: str, chosenDict: str) -> str | None:
+    data = load_data("D:\Daneshgah\Term5\AI\Project\.vscode\Knowledge_base.json")
+    if chosenDict in data:
+        for q in data[chosenDict]["questions"]:
+            if q["question"] == founded_word:
+                return q["answer"]
+    return None       
+    #TODO implement for inventory too        
         
 def Tokenize_Input(user_input: str):
     tokenized_input : list = Tokenizer().tokenize_words(Normalizer().normalize(user_input))
     return tokenized_input
      
-def classify_input(words_list: list, data: dict) -> str | None:
+def classify_input(words_list: list, data: dict) -> tuple | None:
     
     #data = load_knowledge_base("D:\Daneshgah\Term5\AI\Project\.vscode\Knowledge_base.json")
     
     for chitChatQuestion in data["ChitChat"]:
         for word in words_list:
             if word == chitChatQuestion["question"]:
-                return "ChitChat"
+                return ("ChitChat" , word)
             
     for item in data["Inventory"]:
         for word in words_list:
             if word == item["name"]:
-                return "Inventory"    
+                return ("Inventory" , word)    
     
-         
+def ChooseProperDict(scope : str, loadedData : dict) -> dict :
+    if scope is "ChitChat" :
+        return loadedData["ChitChat"]
+    
+    elif scope is "Inventory" :
+        return loadedData["Inventory"]
         
 def chat_bot():
-    knowledge_base: dict = load_knowledge_base("D:\Daneshgah\Term5\AI\Project\.vscode\Knowledge_base.json")
-    #Inventory_data: dict = load_knowledge_base("D:\Daneshgah\Term5\AI\Project\.vscode\Inventory.json")
+    loaded_data: dict = load_data("D:\Daneshgah\Term5\AI\Project\.vscode\Knowledge_base.json")
     while True:
         raw_user_input: str = input("چه کمکی ازم برمیاد؟ ")
         
         if(raw_user_input.lower == "خروج" or raw_user_input.lower == "exit"):
             break
         input_words_list = Tokenize_Input(raw_user_input)
+        chosenTuple = classify_input(input_words_list,loaded_data)
+        founded_word = chosenTuple[1]
+        chosen_scope = chosenTuple[0]
+        chosenDict = ChooseProperDict(chosen_scope, loaded_data)
         
-        #TODO decide witch scope to search in 
-        chosenScope = classify_input(input_words_list,knowledge_base)
-        print(chosenScope)
-        best_match: str | None = find_best_match(raw_user_input,[q["question"] for q in knowledge_base["ChitChat"]])
+       # best_match: str | None = find_best_match(chosenTuple[0],[q["question"] for q in chosenDict])
         
         #if best_match:
-            #answer : str = get_answer_for_question(best_match,knowledge_base)
-            #print(f"Bot: {answer}")
-            #print(Normalizer().normalize(answer))
+        answer : str = get_answer_for_question(founded_word, chosen_scope)
+        #print(f"Bot: {answer}")
+        #print(Normalizer().normalize(answer))
+        print(answer)
         #else:
             #print("Bot : I don\'t knwo the answer , can you teach me?")
             #print(Normalizer().normalize("پاسخی یافت نشد"))

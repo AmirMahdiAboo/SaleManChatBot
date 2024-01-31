@@ -2,23 +2,19 @@
   "ChitChat": [
     {
       "question": "سلام",
-      "answer": "hey there"
+      "answer": "سلام بر شما"
     },
     {
       "question": "درود",
-      "answer": "dorod bar to"
+      "answer": "درود بر تو"
     },
     {
       "question": "های",
-      "answer": "jan"
+      "answer": "هلوو"
     },
     {
-      "question": "مرام",
-      "answer": "hello"
-    },
-    {
-      "question": "معرفت",
-      "answer": "hello"
+      "question": "درود بیکران",
+      "answer": "درود بیکران تر"
     }
   ],
   
