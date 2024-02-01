@@ -57,14 +57,14 @@ def ChooseProperDict(scope : str, loadedData : dict) -> dict :
     elif scope == "Cart" :
         return loadedData["Cart"]
 
-def UpdateUserCart(user_cart : dict, founded_word : str, user_required_quantity : int, product_quantity : int, product_price : int):
+def UpdateUserCart(user_cart : dict, requested_item : str, user_required_quantity : int, product_quantity : int, product_price : int):
     if user_required_quantity > product_quantity:
         raise ValueError("Requested quantity is more than available quantity")
-    if founded_word in user_cart:
-        user_cart[founded_word]['quantity'] += user_required_quantity
-        user_cart[founded_word]['price'] = product_price
+    if requested_item in user_cart:
+        user_cart[requested_item]['quantity'] += user_required_quantity
+        user_cart[requested_item]['price'] = product_price
     else:
-        user_cart[founded_word] = {'quantity': user_required_quantity, 'price': product_price}
+        user_cart[requested_item] = {'quantity': user_required_quantity, 'price': product_price}
 
 def CalculateTotalPrice(user_cart: dict):
     total_price = 0
@@ -176,21 +176,6 @@ def chat_bot():
             else:
                 answer = get_answer_for_outOfScope(best_match[0], chosenDict)
                 print(answer)
-                
-            
-        
-        
-        
-        #else:
-            #print("Bot : I don\'t knwo the answer , can you teach me?")
-            #print(Normalizer().normalize("پاسخی یافت نشد"))
-           #new_answer: str = input("Type the answer or 'skip' to skip : ")
-            
-        # if new_answer.lower() != "skip":
-        #         knowledge_base["ChitChat"].append({"question":user_input,"answer":new_answer})
-        #         save_knowledge_base("knowledge_base.json",knowledge_base)
-        #         #print("Bot: Thanks for teaching me a new thing")
-        #         print(Normalizer().normalize("ممنون که چیز جدیدی یادم دادی"))
         
 if __name__ == "__main__":
     chat_bot()
